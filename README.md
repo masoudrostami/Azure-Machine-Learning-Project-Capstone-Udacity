@@ -31,9 +31,7 @@ This dataset is originally from the National Institute of Diabetes and Digestive
 https://www.kaggle.com/uciml/pima-indians-diabetes-database
 
 #### Following are the features (columns) in the dataset:
-The datasets consists of several medical predictor variables and one target variable, Outcome. Predictor variables includes the number of pregnancies the patient has had, their BMI, insulin level, age, and so on.
 
-#### Following is the significance of each feature (columns):
 1. `Pregnancies`: Number of times pregnant
 2. `Glucose`: Plasma glucose concentration a 2 hours in an oral glucose tolerance test
 3. `BloodPressure`: Diastolic blood pressure (mm Hg)
@@ -44,9 +42,15 @@ The datasets consists of several medical predictor variables and one target vari
 8. `Age`: Age (years)
 9. `Outcome`: Class variable (0 or 1)
 
+
+#### Exploring the dataset
+
+![Dataset](https://user-images.githubusercontent.com/40363872/107894638-18f1d480-6ee5-11eb-8234-e56d206da6c6.JPG)
+
+
 ---
 
-## Project Set Up and Installation
+## Steps for project installation
 
 Following steps were perform to setup the project and prepare model, pipeline, deploy and consume it:
 
@@ -74,21 +78,14 @@ Following steps were perform to setup the project and prepare model, pipeline, d
 8. Enable the application insights and service logs.
 9. Test the endpoint by sending a sample json payload and receive a response.
 
-### Task
+### Purpose
 
 In this project our task is to predict wheather a user is diabetic or not based on features like number of pregnancies the patient has had, their BMI, insulin level, age, and so on and also it values.
 
-### Access
-
-The dataset was taken from kaggle from the link provided in dataset section and then uploaded (registered) in the Azure Machine Learning Studio in Datasets tab through `'upload from local file'` option. The dataset was registered with the name `'diabetes'`.
-
-![Upload/Register Dataset](/images/Dataset_Registered.PNG)
-
-And then the dataset was loaded in notebook using following code snippet `'Dataset_get_by_name(ws,dataset_name)'`.
 
 ---
 
-## Automated ML
+## 1) Automated ML
 Overview of the `automl` settings and configuration settings experiment:
    - `experiment_timeout_minutes`: Set to 30 minutes. The experiment will timeout after that period to avoid over utilizing of resources.
    - `max_concurrent_iterations`: Set to 4. The max number of concurrent iterations to be run parallely.
@@ -103,7 +100,7 @@ Overview of the `automl` settings and configuration settings experiment:
    - `featurization`: Set to `'auto'`, it's an indicator of whether implementing a featurization step to preprocess/clean the dataset automatically or not.
    - `debug_log`: For specifying a file wherein we can log everything. 
 
-### Results
+### Steps
 - Following Models were trained by AutoML Experiment:
 
 ![Model Trained AutoML](/images/Model_Trained_AutoML.PNG)
