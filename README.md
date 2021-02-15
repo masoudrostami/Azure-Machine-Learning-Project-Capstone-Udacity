@@ -182,27 +182,9 @@ The best performing model has a 74% accuracy that is lower than AutoMl model.
 
 --- 
 
-## Model Deployment
-From Models trained from the above two approaches, the `AutoML Experiment` gave accuracy of **78.137%** while the `HyperDrive Experiment` gave accuracy of **73.958%**. The performance of AutoML model exceeded the HyperDrive performance by 4.179%, So we decide to register AutoML model as the best model and deployed as a web service. And Application Insights were also enabled for it.
+## 3. Model Deployment
+Based on these two approaches, the `AutoML Experiment` gave us accuracy of **79%** while the `HyperDrive Experiment` gave accuracy of **79%**. compare to HyperDrive performance by 4.179% accuracy, So we decide to deploy AutoMl model.
 
-Also, we have created inference configuration and edited deploy configuration settings for the deployment. The inference configuration and settings explain the set up of the web service that will include the deployed model. Environment settings and `scoring.py` script file should be passed the InferenceConfig. The deployed model was configured in `Azure Container Instance(ACI)` with `cpu_cores` and `memory_gb` parameters initialized as 1. 
-
-Following is code snippet for the same:
-```python
-inference_config = InferenceConfig(entry_script='scoring.py',
-                                   environment=environment)
-service_name = 'automl-deploy'
-deployment_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
-
-service = Model.deploy(workspace=ws,
-                       name=service_name,
-                       models=[model],
-                       inference_config=inference_config,
-                       deployment_config=deployment_config,
-                       overwrite=True
-                      )
-service.wait_for_deployment(show_output=True)
-```
 - Best Model afor deployment
 ![AutoMl best model to deploy](https://user-images.githubusercontent.com/40363872/107895748-4ccef900-6ee9-11eb-8d7f-b8f314d90255.JPG)
 
@@ -233,6 +215,6 @@ Here is the link of Screen Recording [link](https://youtu.be/GKx4QSzhvu4)
 ---
 
 ### Future improvements:
-1. I think by selecting the important variables that mostly effect the output variable and removing other variables we can defintly improve the accuracy of our model. 
-Also, using deep learning approach such as ANN and KNN can possible improve our model. Also we can choose the higher cross validation and increase time of iteration to improve our model to get better accuracy. 
+I think by selecting the important variables that mostly effect the output variable and removing other variables we can defintly improve the accuracy of our model. 
+Also, using deep learning approach such as ANN and KNN can possibly improve our model. Also we can choose the higher cross validation numbers and increase the time of iteration to improve our model accuracy. 
 
