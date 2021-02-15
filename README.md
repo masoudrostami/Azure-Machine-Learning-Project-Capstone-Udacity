@@ -45,8 +45,11 @@ https://www.kaggle.com/uciml/pima-indians-diabetes-database
 
 #### Exploring the dataset
 
+Here, I inserted the diabete dataset in Azure ml
 ![Dataset](https://user-images.githubusercontent.com/40363872/107894638-18f1d480-6ee5-11eb-8234-e56d206da6c6.JPG)
 
+Here, I explored the datasets to find out about number of missing values, counts, max, min, variance and oother informations that can help us to justify our model
+![Dataset explore](https://user-images.githubusercontent.com/40363872/107894708-52c2db00-6ee5-11eb-899e-ffe89af24bfc.JPG)
 
 ---
 
@@ -78,7 +81,8 @@ Following steps were perform to setup the project and prepare model, pipeline, d
 8. Enable the application insights and service logs.
 9. Test the endpoint by sending a sample json payload and receive a response.
 
-### Purpose
+
+## Purpose of this Project
 
 In this project our task is to predict wheather a user is diabetic or not based on features like number of pregnancies the patient has had, their BMI, insulin level, age, and so on and also it values.
 
@@ -86,6 +90,9 @@ In this project our task is to predict wheather a user is diabetic or not based 
 ---
 
 ## 1) Automated ML
+Automated Machine Learning is the process of automating the time-consuming, iterative tasks of ML model development. It allows to build the models with high scale efficiency & productivity all while sustaining the model quality. In case of classification problem, many models such as XGBoost, RandomForest, StackEnsemble, VotingEnsemble etc. are compared
+
+#### AutoMl configuration settings experiment
 Overview of the `automl` settings and configuration settings experiment:
    - `experiment_timeout_minutes`: Set to 30 minutes. The experiment will timeout after that period to avoid over utilizing of resources.
    - `max_concurrent_iterations`: Set to 4. The max number of concurrent iterations to be run parallely.
@@ -101,30 +108,55 @@ Overview of the `automl` settings and configuration settings experiment:
    - `debug_log`: For specifying a file wherein we can log everything. 
 
 ### Steps
-- Following Models were trained by AutoML Experiment:
+- Following Models done after AutoML Experiment:
 
-![Model Trained AutoML](/images/Model_Trained_AutoML.PNG)
-![AutoML Accuracy](/images/AutoML_Accuracy.PNG)
 
-- The Best Model acheived from the AutoML experiment from `VotingEnsemble` model. The Voting Ensemble Model which gave the accuracy of 0.78137 ***(78.137%)***.
+![AutoMl-completed](https://user-images.githubusercontent.com/40363872/107895043-b994c400-6ee6-11eb-8f9d-b7d650e05310.JPG)
 
-![Best Model AutoML](/images/Best_Model_AutoML.PNG)
+This is the child run for AutoMl model
 
-![Best Model Parameter and Completion Status](/images/Best_Model_Parameter_and_Model_Completion_Status.PNG)
+![Child run AutoMl](https://user-images.githubusercontent.com/40363872/107895076-dcbf7380-6ee6-11eb-9955-343e6704931a.JPG)
 
-- `RunDetails` widget of best model screenshot 
+This images shows that our model pass Data guardrail tests
 
-![Run Details AutoML](/images/Run_Details_AutoML.PNG)
+![Data guardrails](https://user-images.githubusercontent.com/40363872/107895086-e943cc00-6ee6-11eb-93e6-75a839ee1321.JPG)
 
-- Best model run id screenshot
+RunDetails widget of the best model. Here, we listed our best model by AutoML.The Best Model acheived from the AutoML experiment from VotingEnsemble model. The Voting Ensemble Model which gave the accuracy of 0.79 (79%).
 
-![Best Model with RunID AutoML](/images/Best_Model_with_runid_AutoML.PNG)
+![RuDetails-AutoMl](https://user-images.githubusercontent.com/40363872/107895241-856dd300-6ee7-11eb-848b-14bc02670050.JPG)
+
+Here, wI show AutoMl run with metrics in Python Jupyter
+
+![AutoMl run with metrics](https://user-images.githubusercontent.com/40363872/107895252-96b6df80-6ee7-11eb-85f1-d88e4ecf2156.JPG)
+
+
+In addition to accuracy we check other metrics including Precision, Recall and Confusion matrix for our model.
+
+![Precision-Recall](https://user-images.githubusercontent.com/40363872/107895380-fe6d2a80-6ee7-11eb-8ada-211c275f21f8.JPG)
+
+![Confusion matrix](https://user-images.githubusercontent.com/40363872/107895399-0c22b000-6ee8-11eb-94ee-a234f95341df.JPG)
+
+
+
+#### Also, here we tried to find out and explore the important variables in diabete dataset and to see which independent variables has the highest influnce on predicting the outcome variable.
+
+Here, it show important variavles by using bar-plot
+
+
+![Imortant variables](https://user-images.githubusercontent.com/40363872/107895418-1fce1680-6ee8-11eb-9c5f-1642d76df100.JPG)
+
+
+Also, here I show important variavles by using box-plot
+
+![Important variables box plot](https://user-images.githubusercontent.com/40363872/107895457-40966c00-6ee8-11eb-9511-6e327138442d.JPG)
+
+
 
 ---
 
-## Hyperparameter Tuning
+## 2) Hyperparameter Tuning
 
-For HyperDrive Experiment we have chosen LogisticRegression classifier as model. Since our target column of dataset is to predict whether a person is diabetic or not (i.e. 1 or 0), which is a classification problem. The dataset is loaded into the notebook and then model is trained using the script written in `'train.py'` file.
+For HyperDrive Experiment we have chosen LogisticRegression classifier as model. 
 
 Overview of the `Hyperparameter Tuning` settings and configuration settings experiment: 
 - Parameter used for `HyperDriveConfig` settings:
@@ -136,24 +168,17 @@ Overview of the `Hyperparameter Tuning` settings and configuration settings expe
   - `max_total_runs`: The total number of runs we want to do inorder to train the model using the above specified hyperparameters. (Set to 24)
   - `max_concurrent_runs`: The max number of concurrent iterations to be run parallely. (Set to 4)
 
-### Results
-Following is the Run details for HyperDrive Experiment with Parameter details
+### Steps
 
-![Hyperdrive Experiment Completed](/images/Hyperdrive_Exp_Completed.PNG)
+Details for HyperDrive Experiment with Parameter details
 
-The best performing model has a 73.958% accuracy rate with --C = 1000 and --max_iter = 25. 
+![Hyperdrive_Completed](https://user-images.githubusercontent.com/40363872/107895568-abe03e00-6ee8-11eb-95cb-df23e0ff71c5.JPG)
 
-- `RunDetails` widget screenshot of the best model
-  
-![Run Detail Hyperdrive](/images/Run_Detail_Hyperdrive.PNG)
 
-![Run Details Metrics Accuracy](/images/Run_Details_Metrics_Accuracy.PNG)
+The best performing model has a 74% accuracy that is lower than AutoMl model.
 
-![Run Details Parameter Visualization](/images/Run_Details_Parameter_Visualization.PNG)
+![hyperdrive best model](https://user-images.githubusercontent.com/40363872/107895663-fd88c880-6ee8-11eb-8f86-cdf77225b871.JPG)
 
-- Best model run id screenshot
-  
-![HyperDrive Best Model](/images/HyperDrive_Best_Model.PNG)
 
 --- 
 
@@ -178,32 +203,36 @@ service = Model.deploy(workspace=ws,
                       )
 service.wait_for_deployment(show_output=True)
 ```
-- Best Model and It's Metrics:
-  
-![Best Model](/images/Best_Model_with_runid_AutoML.PNG)
+- Best Model afor deployment
+![AutoMl best model to deploy](https://user-images.githubusercontent.com/40363872/107895748-4ccef900-6ee9-11eb-8d7f-b8f314d90255.JPG)
 
-![Best Model Metrics 1](/images/Best_Model_Metrics1.PNG)
-
-![Best Model Metrics 2](/images/Best_Model_Metrics2.PNG)
 
 - Best Model Deployment Status
 
-![Best Model Deployment Status](/images/Best_Model_Deployment_Status.PNG)
+![AutoMl endpoints](https://user-images.githubusercontent.com/40363872/107895774-5ce6d880-6ee9-11eb-893e-026266769319.JPG)
+
+![AutoMl deploy 2](https://user-images.githubusercontent.com/40363872/107895847-87389600-6ee9-11eb-9a5f-aaa0ef909271.JPG)
+
 
 - Consuming Endpoint and Testing
   
-![Consuming Endpoint](/images/Consuming_endpoint.PNG)
+![Testing](https://user-images.githubusercontent.com/40363872/107895910-be0eac00-6ee9-11eb-85e0-79a733800933.JPG)
 
-![Testing Deployed Endpoint](/images/Testing_Deployed_Endpoint.PNG)
+![testing 2](https://user-images.githubusercontent.com/40363872/107895939-d979b700-6ee9-11eb-81c1-c36a5457e2d0.JPG)
+
+Also, by using Application Insights enabled, we can monitor number of failed request, Server response time and server request
+
+![Monitoring](https://user-images.githubusercontent.com/40363872/107896092-35444000-6eea-11eb-9d65-8bacbb0f91d5.JPG)
 
 ---
 ## Screen Recording
 
-Following is link to Projects Demonstration Screen Recording [link](https://youtu.be/K5tPVB-LOxw)
+Here is the link of Screen Recording [link](https://youtu.be/GKx4QSzhvu4)
+
 
 ---
 
 ### Future improvements:
-1. Performing some feature engineering on data, like some records in the datasets are hypotheical like number of pregnecies 15 and 17, also SkinThickness For adults, the standard normal values for triceps skinfolds are: 2.5mm (men) or about 20% fat; 18.0mm (women) or about 30% fat, so such outliers or mistakes done while collecting data can be removed to improve the prediction.
-2. Trained the dataset using different models like KNN or Neural Networks.
-3. In case of AutoML, we can try Interchanging n_cross_validations value between (2 till 7) and see if the prediction accuracy improved by tuning this parameter.
+1. I think by selecting the important variables that mostly effect the output variable and removing other variables we can defintly improve the accuracy of our model. 
+Also, using deep learning approach such as ANN and KNN can possible improve our model. Also we can choose the higher cross validation and increase time of iteration to improve our model to get better accuracy. 
+
